@@ -57,11 +57,14 @@ local function lsp_status()
   return table.concat(status, " ")
 end
 
-local function home_route()
+local function file_route()
   local file_name = vim.fn.expand("%:t")
   local work_dir = vim.fn.fnamemodify(vim.fn.getcwd(), ':t');
+  local file_icon = require "nvim-web-devicons".get_icon_by_filetype(vim.bo.filetype)
+  local icon = file_icon or ""
   if file_name ~= "" then
-    return work_dir .. ' / .. / ' .. file_name
+    return work_dir ..
+        ' / .. / ' .. file_name .. ' ' .. icon
   end
 
   return work_dir
@@ -73,7 +76,7 @@ function _G.statusline()
     "%#Statusline#",
     lsp_status(),
     "%=",
-    home_route(),
+    file_route(),
     "%h%w%m%r",
     "%=",
     lsp_attached(),

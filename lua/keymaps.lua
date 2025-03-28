@@ -46,16 +46,19 @@ kset("n", "<C-l>", ":wincmd l<CR>", opts({ desc = "Go to split right" }))
 
 kset("v", "p", '"_dP', opts({ desc = "Keep last yanked when pasting" }))
 
-kset("n", "<A-j>", "<cmd>execute 'move .+' . v:count1<CR>==", opts({ desc = "Move Down" }))
-kset("n", "<A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<CR>==", opts({ desc = "Move Up" }))
-kset("i", "<A-j>", "<esc><cmd>m .+1<CR>==gi", opts({ desc = "Move Down" }))
-kset("i", "<A-k>", "<esc><cmd>m .-2<CR>==gi", opts({ desc = "Move Up" }))
-kset("v", "<A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<CR>gv=gv", opts({ desc = "Move Down" }))
-kset("v", "<A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<CR>gv=gv", opts({ desc = "Move Up" }))
+kset("n", "<S-A-j>", "<cmd>execute 'move .+' . v:count1<CR>==", opts({ desc = "Move Down" }))
+kset("n", "<S-A-k>", "<cmd>execute 'move .-' . (v:count1 + 1)<CR>==", opts({ desc = "Move Up" }))
+kset("i", "<S-A-j>", "<esc><cmd>m .+1<CR>==gi", opts({ desc = "Move Down" }))
+kset("i", "<S-A-k>", "<esc><cmd>m .-2<CR>==gi", opts({ desc = "Move Up" }))
+kset("v", "<S-A-j>", ":<C-u>execute \"'<,'>move '>+\" . v:count1<CR>gv=gv", opts({ desc = "Move Down" }))
+kset("v", "<S-A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<CR>gv=gv", opts({ desc = "Move Up" }))
 
 kset("n", "<leader>n", "<cmd>messages<CR>", opts({ desc = "Show messages" }))
 
 kset("n", "<leader>cf", function() vim.lsp.buf.format() end, opts({ desc = "Format file" }))
+
+kset("n", "<S-Down>", function() Switchfiles.select() end, opts({ desc = "Select similar file" }))
+kset("n", "<S-Right", function() Switchfiles.switch() end, opts({ desc = "Switch to similar file" }))
 
 -- OIL
 kset("n", "-", "<CMD>Oil<CR>", opts({ desc = "Open parent directory" }))

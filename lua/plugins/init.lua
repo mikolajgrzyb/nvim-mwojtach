@@ -39,7 +39,6 @@ Lazy.load({
   -- TREESITTER
   "nvim-treesitter/nvim-treesitter",
   "nvim-treesitter/nvim-treesitter-context",
-  "RRethy/vim-illuminate",
   -- AUTOCOMPLETE
   "hrsh7th/cmp-nvim-lsp",
   "hrsh7th/cmp-buffer",
@@ -69,6 +68,7 @@ Lazy.load({
   -- MISC
   "windwp/nvim-autopairs",
   "folke/todo-comments.nvim",
+  "RRethy/vim-illuminate",
   -- THEME
   {
     "rmehri01/onenord.nvim",
@@ -93,3 +93,7 @@ require "yazi".setup({
   floating_window_scaling_factor = 1
 })
 require "illuminate".configure()
+require "todo-comments".setup()
+
+-- local
+require "plugins.switchfiles"

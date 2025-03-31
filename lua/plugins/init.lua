@@ -52,15 +52,11 @@ Lazy.load({
   -- GIT
   "lewis6991/gitsigns.nvim",
   {
-    "kdheepak/lazygit.nvim",
-    lazy = true,
-    cmd = {
-      "LazyGit",
-      "LazyGitConfig",
-      "LazyGitCurrentFile",
-      "LazyGitFilter",
-      "LazyGitFilterCurrentFile",
-    }
+    "NeogitOrg/neogit",
+    dependencies = {
+      "sindrets/diffview.nvim",
+    },
+    config = true,
   },
   -- UI
   "folke/which-key.nvim",
@@ -94,6 +90,7 @@ require "yazi".setup({
 })
 require "illuminate".configure()
 require "todo-comments".setup()
+require "neogit".setup {}
 
 -- local
 require "plugins.switchfiles"

@@ -3,6 +3,7 @@ local utils_diagnostics = require "plugins.diagnostics"
 local telescope = require "telescope.builtin"
 local wk = require("which-key")
 local gitsigns = require "gitsigns"
+local neogit = require "neogit"
 
 local default_opts = { noremap = true, silent = true }
 local kset = vim.keymap.set
@@ -104,7 +105,9 @@ kset("n", "<leader>cd", vim.diagnostic.open_float, opts({ desc = "Show Line Diag
 kset("n", "<leader>cD", function() telescope.diagnostics({ bufnr = 0 }) end, opts({ desc = "Show Buffer Diagnostics" }))
 
 -- GIT
-kset("n", "<leader>gg", "<cmd>LazyGit<CR>", opts({ desc = "LazyGit" }))
+kset("n", "<leader>gg", function() neogit.open() end, opts({ desc = "Git tool" }))
+kset("n", "<leader>gG", function() neogit.open({ kind = "split" }) end, opts({ desc = "Git tool - split" }))
+kset("n", "<leader>gc", function() neogit.open({ "commit" }) end, opts({ desc = "Git commits" }))
 kset("n", "<leader>ghs", gitsigns.stage_hunk, opts({ desc = "Stage hunk" }))
 kset("n", "<leader>ghr", gitsigns.reset_hunk, opts({ desc = "Reset hunk" }))
 kset("n", "<leader>ghp", gitsigns.preview_hunk, opts({ desc = "Preview hunk" }))

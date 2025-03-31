@@ -15,6 +15,7 @@ require "conform".setup({
     go = { "golines", "goimports", "golangci", "golangci_lint_ls", "golangci-lint" },
     html = { "htmlbeautifier", "htmlhint" },
     tmpl = { "htmlbeautifier", "htmlhint" },
+    php = { "pint", "php_cs_fixer" }
   },
 })
 

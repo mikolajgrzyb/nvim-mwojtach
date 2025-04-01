@@ -51,26 +51,26 @@ Lazy.load({
   "mikavilpas/yazi.nvim",
   -- GIT
   "lewis6991/gitsigns.nvim",
-  {
-    "NeogitOrg/neogit",
-    dependencies = {
-      "sindrets/diffview.nvim",
-    },
-    config = true,
-  },
+  "sindrets/diffview.nvim",
+  "NeogitOrg/neogit",
   -- UI
   "folke/which-key.nvim",
-  "ggandor/leap.nvim",
   -- MISC
   "windwp/nvim-autopairs",
   "folke/todo-comments.nvim",
   "RRethy/vim-illuminate",
+  "ggandor/leap.nvim",
   -- THEME
   {
     "rmehri01/onenord.nvim",
     lazy = false,
     priority = 1000,
   },
+  {
+    "skardyy/makurai-nvim",
+    lazy = false,
+    priority = 1000,
+  }
 })
 
 require "plugins.lspconfig"
@@ -90,7 +90,8 @@ require "yazi".setup({
 })
 require "illuminate".configure()
 require "todo-comments".setup()
-require "neogit".setup {}
+require "neogit".setup()
+require "makurai".setup()
 
 -- local
 require "plugins.switchfiles"

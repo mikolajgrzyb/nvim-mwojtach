@@ -5,7 +5,6 @@ local util = require 'lspconfig.util'
 local client_capabilities = vim.lsp.protocol.make_client_capabilities()
 client_capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-
 lspconfig.lua_ls.setup {
   capabilities = lsp_capabilities,
   on_init = function(client)
@@ -62,6 +61,12 @@ lspconfig.vtsls.setup {
 }
 
 lspconfig.intelephense.setup {}
+
+lspconfig.emmet_language_server.setup {}
+
+lspconfig.cssls.setup {
+  capabilities = client_capabilities,
+}
 
 -- lspconfig.html.setup {}
 

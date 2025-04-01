@@ -55,4 +55,4 @@ opt.updatetime = 200
 opt.wildmode = "longest:full,full"
 opt.winminwidth = 5
 opt.wrap = false
-opt.guicursor = "n-v-c-sm:block,n:blinkon100,i-ci-ve:ver25,r-cr-o:hor20"
+opt.guicursor = "n-v-c-sm:block,n:blinkon200,n:blinkoff200,i-ci-ve:ver25,r-cr-o:hor20"

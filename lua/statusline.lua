@@ -10,7 +10,7 @@ See `:h "statusline'` for more information about statusline.
 
 local devicons = require "nvim-web-devicons"
 
-local bg_color = "#343B4B"
+local bg_color = "#14171B"
 local fg_color = "#E5E9F0"
 
 vim.api.nvim_set_hl(0, "Statusline", { fg = fg_color, bg = bg_color })

@@ -68,26 +68,9 @@ lspconfig.cssls.setup {
   capabilities = client_capabilities,
 }
 
--- lspconfig.html.setup {}
-
--- lspconfig.html.setup {
---   capabilities = client_capabilities,
---   cmd = { 'vscode-html-language-server', '--stdio' },
---   filetypes = {
---     "html",
---     "templ",
---     "blade",
---     "hbs",
---   },
---   root_dir = util.root_pattern('package.json', '.git'),
---   single_file_support = true,
---   settings = {},
---   init_options = {
---     provideFormatter = true,
---     embeddedLanguages = { css = true, javascript = true },
---     configurationSection = { 'html', 'css', 'javascript' },
---   },
--- }
+lspconfig.html.setup {
+  capabilities = client_capabilities,
+}
 
 lspconfig.angularls.setup {
   capabilities = lsp_capabilities,

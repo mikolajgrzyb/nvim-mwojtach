@@ -68,9 +68,9 @@ lspconfig.cssls.setup {
   capabilities = client_capabilities,
 }
 
-lspconfig.html.setup {
-  capabilities = client_capabilities,
-}
+-- lspconfig.html.setup {
+--   capabilities = client_capabilities,
+-- }
 
 lspconfig.angularls.setup {
   capabilities = lsp_capabilities,

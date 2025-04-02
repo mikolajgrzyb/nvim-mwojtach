@@ -10,6 +10,10 @@ wk.setup({
   }
 })
 
-vim.api.nvim_set_hl(0, "WhichKeyNormal", {bg = "#2E3440"})
-vim.api.nvim_set_hl(0, "WhichKeyBorder", {bg = "#2E3440"})
-
+vim.api.nvim_set_hl(0, "WhichKey", { bg = "#15161B" })
+vim.api.nvim_set_hl(0, "WhichKeyBorder", { bg = "#15161B" })
+vim.api.nvim_set_hl(0, "WhichKeyDesc", { bg = "#15161B" })
+vim.api.nvim_set_hl(0, "WhichKeyGroup", { bg = "#15161B" })
+vim.api.nvim_set_hl(0, "WhichKeyNormal", { bg = "#15161B" })
+vim.api.nvim_set_hl(0, "WhichKeySeparator", { bg = "#15161B" })
+vim.api.nvim_set_hl(0, "WhichKeyValue", { bg = "#15161B" })

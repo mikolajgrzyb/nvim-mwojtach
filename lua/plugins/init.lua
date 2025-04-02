@@ -50,6 +50,16 @@ Lazy.load({
   -- YAZI
   "mikavilpas/yazi.nvim",
   -- GIT
+  -- {
+  "kdheepak/lazygit.nvim",
+  lazy = true,
+  cmd = {
+    "LazyGit",
+    "LazyGitConfig",
+    "LazyGitCurrentFile",
+    "LazyGitFilter",
+    "LazyGitFilterCurrentFile",
+  },
   "lewis6991/gitsigns.nvim",
   "sindrets/diffview.nvim",
   "NeogitOrg/neogit",

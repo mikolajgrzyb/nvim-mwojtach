@@ -10,16 +10,36 @@ See `:h "statusline'` for more information about statusline.
 
 local devicons = require "nvim-web-devicons"
 
-local bg_color = "#14171B"
-local fg_color = "#E5E9F0"
+local colors = {
+  bg = "#14171B",
+  fg = "#E5E9F0",
+  error = "#FF5555",
+  warning = "#FFEE99",
+  accent = "#82AAFF",
+}
 
-vim.api.nvim_set_hl(0, "Statusline", { fg = fg_color, bg = bg_color })
+local h_groups = {
+  statusline = "StatusLine",
+  color_icon = "IconColor",
+  color_error = "ErrorColor",
+  color_warning = "WarningColor",
+  color_accent = "AccentColor",
+}
 
-local function set_icon_color(color)
-  vim.api.nvim_set_hl(0, "IconColor", { fg = color, bg = bg_color })
+vim.api.nvim_set_hl(0, h_groups.statusline, { fg = colors.fg, bg = colors.bg })
+vim.api.nvim_set_hl(0, h_groups.color_error, { fg = colors.error, bg = colors.bg })
+vim.api.nvim_set_hl(0, h_groups.color_warning, { fg = colors.warning, bg = colors.bg })
+vim.api.nvim_set_hl(0, h_groups.color_accent, { fg = colors.accent, bg = colors.bg })
+
+local function highlight(group)
+  return "%#" .. group .. "#"
 end
 
-set_icon_color(fg_color)
+local function set_icon_color(color)
+  vim.api.nvim_set_hl(0, h_groups.color_icon, { fg = color, bg = colors.bg })
+end
+
+set_icon_color(colors.fg)
 
 ---@return string
 local function lsp_attached()
@@ -37,11 +57,11 @@ local function lsp_attached()
 end
 
 ---@return string
-local function lsp_status()
+local function lsp_diagnostics_status()
   local all_diagnostics = vim.diagnostic.get(0)
 
   if (not all_diagnostics or #all_diagnostics == 0) then
-    return " No issues found "
+    return ""
   end
 
   local issues = {
@@ -50,11 +70,11 @@ local function lsp_status()
     [vim.diagnostic.severity.HINT] = 0,
     [vim.diagnostic.severity.INFO] = 0
   }
-  local translation = {
-    [vim.diagnostic.severity.ERROR] = "Errors",
-    [vim.diagnostic.severity.WARN] = "Warnings",
-    [vim.diagnostic.severity.HINT] = "Hints",
-    [vim.diagnostic.severity.INFO] = "Infos"
+  local color_groups = {
+    [vim.diagnostic.severity.ERROR] = h_groups.color_error,
+    [vim.diagnostic.severity.WARN] = h_groups.color_warning,
+    [vim.diagnostic.severity.HINT] = h_groups.color_accent,
+    [vim.diagnostic.severity.INFO] = h_groups.color_accent,
   }
 
   local status = { "" }
@@ -64,10 +84,12 @@ local function lsp_status()
   end
 
   for diag, count in ipairs(issues) do
-    table.insert(status, translation[diag] .. ": " .. count)
+    if count > 0 then
+      table.insert(status, highlight(color_groups[diag]) .. "[" .. count .. "]")
+    end
   end
 
-  return table.concat(status, " ")
+  return table.concat(status, " ") .. highlight(h_groups.statusline)
 end
 
 ---@return string
@@ -79,7 +101,8 @@ local function file_route()
   local file_icon = icon or ""
   if file_name ~= "" then
     return work_dir ..
-        "%#Statusline# / .. / " .. file_name .. " %#IconColor#" .. file_icon .. "%#Statusline#"
+        "%#Statusline# / .. / " ..
+        file_name .. " " .. highlight(h_groups.color_icon) .. " " .. file_icon .. "%#Statusline#"
   end
 
   return work_dir
@@ -89,7 +112,7 @@ end
 function _G.statusline()
   return table.concat({
     "%#Statusline#",
-    lsp_status(),
+    lsp_diagnostics_status(),
     "%=",
     file_route(),
     "%h%w%m%r",
@@ -106,5 +129,5 @@ vim.o.statusline = "%{%v:lua._G.statusline()%}"
 
 vim.api.nvim_create_autocmd("DiagnosticChanged", {
   pattern = "*",
-  callback = lsp_status,
+  callback = lsp_diagnostics_status,
 })

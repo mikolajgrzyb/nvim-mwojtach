@@ -29,6 +29,8 @@ Lazy.load({
   "nvim-lua/plenary.nvim",
   "nvim-tree/nvim-web-devicons",
   -- LSP
+  "williamboman/mason-lspconfig.nvim", 
+  "williamboman/mason.nvim",
   "neovim/nvim-lspconfig",
   -- FORMATTERS
   "stevearc/conform.nvim",
@@ -44,7 +46,7 @@ Lazy.load({
   "hrsh7th/cmp-buffer",
   "hrsh7th/cmp-path",
   "hrsh7th/cmp-cmdline",
-  "hrsh7th/nvim-cmp",
+ "hrsh7th/nvim-cmp",
   -- OIL
   "stevearc/oil.nvim",
   -- YAZI
@@ -84,6 +86,7 @@ Lazy.load({
 })
 
 require "plugins.lspconfig"
+require "plugins.mason"
 require "plugins.telescope"
 require "plugins.which-key"
 require "plugins.treesitter"

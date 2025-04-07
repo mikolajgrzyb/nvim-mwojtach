@@ -66,8 +66,8 @@ kset("n", "<S-Right", function() Switchfiles.switch() end, opts({ desc = "Switch
 kset("n", "-", "<CMD>Oil<CR>", opts({ desc = "Open parent directory" }))
 
 -- TELESCOPE
-kset("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts({ desc = "Find files" }))
-kset("n", "<leader><leader>", "<cmd>Telescope live_grep<CR>", opts({ desc = "Live grep" }))
+kset("n", "<leader><leader>", "<cmd>Telescope find_files<CR>", opts({ desc = "Find files" }))
+kset("n", "<leader>sg", "<cmd>Telescope live_grep<CR>", opts({ desc = "Live grep" }))
 kset("n", "<leader>fc", function()
   require("telescope.builtin").find_files({
     cwd = "~/.config/nvim",
@@ -129,12 +129,47 @@ kset("n", "<leader>_2", "<cmd>Yazi toggle<CR>", opts({ desc = "Yazi - resume" })
 -- WINDOWS
 kset("n", "<leader>z", '<cmd>WindowsMaximize<CR>', { desc = "Zoom Window" })
 
+-- VSC
+vim.keymap.set("n", "<leader>oc", function()
+  -- Get full path of current file
+  local file = vim.fn.expand("%:p")
+  -- Try to find .git dire
+  -- -- Function to walk up to find .git manually
+  local function find_git_root(path)
+    local prev = ""
+    while path and path ~= prev do
+      if vim.fn.isdirectory(path .. "/.git") == 1 then
+        return path
+      end
+      prev = path
+      path = vim.fn.fnamemodify(path, ":h")
+    end
+    return nil
+  end
+
+  -- Get a proper project root
+  local root = find_git_root(dir)
+  local line = vim.fn.line(".")
+  local col = vim.fn.col(".")
+
+  local cmd = string.format(
+    'code --folder-uri "file://%s" --goto "%s:%d:%d"',
+    root,
+    file,
+    line,
+    col
+  )
+  vim.fn.jobstart(cmd, { detach = true })
+  vim.notify("Opened in VS Code: " .. file)
+end, { desc = "Open in VS Code (project context)" })
+
 wk.add({
-  { "<leader>1",  group = "Yazi" },
+  { "<leader>_",  group = "Yazi" },
   { "<leader>s",  group = "Search / Show" },
   { "<leader>g",  group = "Git" },
   { "<leader>gh", group = "Hunks" },
   { "<leader>w",  group = "Window" },
   { "<leader>b",  group = "Buffers" },
   { "<leader>c",  group = "Code Action" },
+  { "<leader>f",  group = "Find" },
 })

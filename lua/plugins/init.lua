@@ -89,6 +89,10 @@ Lazy.load({
       "anuvyklack/middleclass",
       "anuvyklack/animation.nvim"
     },
+  },
+  {
+    "chentoast/marks.nvim",
+    event = "VeryLazy",
   }
 })
 
@@ -100,6 +104,7 @@ require "plugins.which-key"
 require "plugins.treesitter"
 require "plugins.cmp"
 require "plugins.conform"
+require "plugins.marks"
 
 -- quick setup
 require "gitsigns".setup()

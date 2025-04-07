@@ -12,6 +12,7 @@ local function opts(extends)
   local tbl = extends or {}
   return vim.tbl_deep_extend('force', tbl, default_opts)
 end
+kset({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
 kset("n", "<leader>sn", "<cmd>noautocmd w <CR>", opts({ desc = "Save without formatting" }))
 
@@ -26,10 +27,10 @@ kset("n", "<C-u>", "<C-u>zz", opts({ desc = "Scroll up and center" }))
 kset("n", "n", "nzzzv", opts({ desc = "Find next and center" }))
 kset("n", "N", "Nzzzv", opts({ desc = "Find previous and center" }))
 
-kset("n", "<Up>", ":resize +15<CR>", opts({ desc = "Increase window height" }))
-kset("n", "<Down>", ":resize -15<CR>", opts({ desc = "Decrease window height" }))
-kset("n", "<Left>", ":vertical resize -15<CR>", opts({ desc = "Decrease window width" }))
-kset("n", "<Right>", ":vertical resize +15<CR>", opts({ desc = "Increase window width" }))
+-- kset("n", "<Up>", ":resize +15<CR>", opts({ desc = "Increase window height" }))
+-- kset("n", "<Down>", ":resize -15<CR>", opts({ desc = "Decrease window height" }))
+kset("n", "<S-Left>", ":vertical resize -15<CR>", opts({ desc = "Decrease window width" }))
+kset("n", "<S-Right>", ":vertical resize +15<CR>", opts({ desc = "Increase window width" }))
 
 kset("n", "<Tab>", ":bnext<CR>", opts({ desc = "Next buffer" }))
 kset("n", "<S-Tab>", ":bprevious<CR>", opts({ desc = "Previous buffer" }))
@@ -65,8 +66,14 @@ kset("n", "<S-Right", function() Switchfiles.switch() end, opts({ desc = "Switch
 kset("n", "-", "<CMD>Oil<CR>", opts({ desc = "Open parent directory" }))
 
 -- TELESCOPE
-kset("n", "<leader>f", "<cmd>Telescope find_files<CR>", opts({ desc = "Find files" }))
+kset("n", "<leader>ff", "<cmd>Telescope find_files<CR>", opts({ desc = "Find files" }))
 kset("n", "<leader><leader>", "<cmd>Telescope live_grep<CR>", opts({ desc = "Live grep" }))
+kset("n", "<leader>fc", function()
+  require("telescope.builtin").find_files({
+    cwd = "~/.config/nvim",
+    prompt_title = "Neovim Config",
+  })
+end, { desc = "Find in Neovim Config" })
 kset("n", "<leader>,", "<cmd>Telescope buffers<CR>", opts({ desc = "Buffers" }))
 kset("n", "<leader>gf", "<cmd>Telescope git_files<CR>", opts({ desc = "Find Files (git-files)" }))
 kset("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", opts({ desc = "Git commits" }))
@@ -115,10 +122,12 @@ kset("n", "<leader>ghb", gitsigns.blame_line, opts({ desc = "Blame line" }))
 kset("n", "<leader>ght", gitsigns.toggle_current_line_blame, opts({ desc = "Toggle line blame" }))
 
 -- YAZI
-kset("n", "<leader>1", "<cmd>Yazi<CR>", opts({ desc = "Yazi - current file" }))
-kset("n", "<leader>2", "<cmd>Yazi cwd<CR>", opts({ desc = "Yazi - nvim working directory" }))
-kset("n", "<leader>3", "<cmd>Yazi toggle<CR>", opts({ desc = "Yazi - resume" }))
+kset("n", "<leader>__", "<cmd>Yazi<CR>", opts({ desc = "Yazi - current file" }))
+kset("n", "<leader>_1", "<cmd>Yazi cwd<CR>", opts({ desc = "Yazi - nvim working directory" }))
+kset("n", "<leader>_2", "<cmd>Yazi toggle<CR>", opts({ desc = "Yazi - resume" }))
 
+-- WINDOWS
+kset("n", "<leader>z", '<cmd>WindowsMaximize<CR>', { desc = "Zoom Window" })
 
 wk.add({
   { "<leader>1",  group = "Yazi" },

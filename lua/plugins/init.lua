@@ -29,7 +29,7 @@ Lazy.load({
   "nvim-lua/plenary.nvim",
   "nvim-tree/nvim-web-devicons",
   -- LSP
-  "williamboman/mason-lspconfig.nvim", 
+  "williamboman/mason-lspconfig.nvim",
   "williamboman/mason.nvim",
   "neovim/nvim-lspconfig",
   -- FORMATTERS
@@ -46,7 +46,7 @@ Lazy.load({
   "hrsh7th/cmp-buffer",
   "hrsh7th/cmp-path",
   "hrsh7th/cmp-cmdline",
- "hrsh7th/nvim-cmp",
+  "hrsh7th/nvim-cmp",
   -- OIL
   "stevearc/oil.nvim",
   -- YAZI
@@ -82,9 +82,17 @@ Lazy.load({
     "skardyy/makurai-nvim",
     lazy = false,
     priority = 1000,
+  },
+  {
+    "anuvyklack/windows.nvim",
+    dependencies = {
+      "anuvyklack/middleclass",
+      "anuvyklack/animation.nvim"
+    },
   }
 })
 
+require("windows").setup()
 require "plugins.lspconfig"
 require "plugins.mason"
 require "plugins.telescope"

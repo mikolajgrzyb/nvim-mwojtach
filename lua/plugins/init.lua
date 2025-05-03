@@ -93,6 +93,10 @@ Lazy.load({
   {
     "chentoast/marks.nvim",
     event = "VeryLazy",
+  },
+  {
+    'vim-test/vim-test',
+    dependencies = { 'tpope/vim-dispatch' }
   }
 })
 

@@ -4,9 +4,10 @@ local telescope = require "telescope.builtin"
 local wk = require("which-key")
 local gitsigns = require "gitsigns"
 local neogit = require "neogit"
-
 local default_opts = { noremap = true, silent = true }
 local kset = vim.keymap.set
+vim.g['test#javascript#runner'] = 'jest'
+vim.g['test#typescript#runner'] = 'jest'
 
 local function opts(extends)
   local tbl = extends or {}
@@ -129,6 +130,9 @@ kset("n", "<leader>_2", "<cmd>Yazi toggle<CR>", opts({ desc = "Yazi - resume" })
 -- WINDOWS
 kset("n", "<leader>z", '<cmd>WindowsMaximize<CR>', { desc = "Zoom Window" })
 
+-- TEST
+kset("n", "<leader>tf", "<cmd>TestFile<CR>")
+kset("n", "<leader>tn", "<cmd>TestNearest<CR>")
 -- VSC
 vim.keymap.set("n", "<leader>oc", function()
   -- Get full path of current file

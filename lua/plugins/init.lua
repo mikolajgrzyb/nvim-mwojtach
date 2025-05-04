@@ -114,6 +114,11 @@ Lazy.load({
   {
     'vim-test/vim-test',
     dependencies = { 'tpope/vim-dispatch' }
+  },
+  {
+    "folke/trouble.nvim",
+    opts = {}, -- for default options, refer to the configuration section for custom setup.
+    cmd = "Trouble",
   }
 })
 

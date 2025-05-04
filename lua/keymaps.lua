@@ -145,6 +145,49 @@ kset("n", "<leader>ql", function() require("persistence").load({ last = true }) 
 
 -- stop Persistence => session won't be saved on exit
 kset("n", "<leader>qd", function() require("persistence").stop() end)
+-- Trouble
+kset('n',
+  "<leader>xx",
+  "<cmd>Trouble diagnostics toggle<cr>",
+  opts({
+    desc = "Diagnostics (Trouble)",
+  })
+)
+kset('n',
+  "<leader>xX",
+  "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+  opts({
+    desc = "Buffer Diagnostics (Trouble)",
+  })
+)
+kset('n',
+  "<leader>cs",
+  "<cmd>Trouble symbols toggle focus=false<cr>",
+  opts({
+    desc = "Symbols (Trouble)",
+  })
+)
+kset('n',
+  "<leader>cl",
+  "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+  opts({
+    desc = "LSP Definitions / references / ... (Trouble)",
+  })
+)
+kset('n',
+  "<leader>xL",
+  "<cmd>Trouble loclist toggle<cr>",
+  opts({
+    desc = "Location List (Trouble)",
+  })
+)
+kset('n',
+  "<leader>xQ",
+  "<cmd>Trouble qflist toggle<cr>",
+  opts({
+    desc = "Quickfix List (Trouble)",
+  })
+)
 -- VSC
 vim.keymap.set("n", "<leader>oc", function()
   -- Get full path of current file

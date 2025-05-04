@@ -131,8 +131,20 @@ kset("n", "<leader>_2", "<cmd>Yazi toggle<CR>", opts({ desc = "Yazi - resume" })
 kset("n", "<leader>z", '<cmd>WindowsMaximize<CR>', { desc = "Zoom Window" })
 
 -- TEST
-kset("n", "<leader>tf", "<cmd>TestFile<CR>")
-kset("n", "<leader>tn", "<cmd>TestNearest<CR>")
+kset("n", "<leader>tf", "<cmd>TestFile<CR>", opts({ desc = "Run current file test" }))
+kset("n", "<leader>tn", "<cmd>TestNearest<CR>", opts({ desc = "Run nearest test" }))
+
+-- Persistance
+kset("n", "<leader>qs", function() require("persistence").load() end)
+
+-- select a session to load
+kset("n", "<leader>qS", function() require("persistence").select() end)
+
+-- load the last session
+kset("n", "<leader>ql", function() require("persistence").load({ last = true }) end)
+
+-- stop Persistence => session won't be saved on exit
+kset("n", "<leader>qd", function() require("persistence").stop() end)
 -- VSC
 vim.keymap.set("n", "<leader>oc", function()
   -- Get full path of current file
@@ -176,4 +188,6 @@ wk.add({
   { "<leader>b",  group = "Buffers" },
   { "<leader>c",  group = "Code Action" },
   { "<leader>f",  group = "Find" },
+  { "<leader>q",  group = "Sessions" },
+  { "<leader>t",  group = "Tests" },
 })

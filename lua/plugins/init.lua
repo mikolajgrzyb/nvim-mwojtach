@@ -41,6 +41,14 @@ Lazy.load({
   -- TREESITTER
   "nvim-treesitter/nvim-treesitter",
   "nvim-treesitter/nvim-treesitter-context",
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    dependencies = {
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+      },
+    }
+  },
   -- AUTOCOMPLETE
   "hrsh7th/cmp-nvim-lsp",
   "hrsh7th/cmp-buffer",
@@ -72,6 +80,15 @@ Lazy.load({
   "folke/todo-comments.nvim",
   "RRethy/vim-illuminate",
   "ggandor/leap.nvim",
+  {
+    "folke/persistence.nvim",
+    event = "BufReadPre",
+    opts = {
+      dir = vim.fn.stdpath("state") .. "/sessions/",
+      need = 1,
+      branch = true,
+    }
+  },
   -- THEME
   {
     "rmehri01/onenord.nvim",
@@ -106,6 +123,7 @@ require "plugins.mason"
 require "plugins.telescope"
 require "plugins.which-key"
 require "plugins.treesitter"
+require "plugins.tree-sitter-text-objects"
 require "plugins.cmp"
 require "plugins.conform"
 require "plugins.marks"

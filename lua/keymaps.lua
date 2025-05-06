@@ -148,7 +148,12 @@ kset("n", "<leader>qd", function() require("persistence").stop() end)
 -- Trouble
 kset('n',
   "<leader>xx",
-  "<cmd>Trouble diagnostics toggle<cr>",
+  function()
+    require("trouble").open("diagnostics")
+    vim.defer_fn(function()
+      vim.cmd("wincmd j")
+    end, 50)
+  end,
   opts({
     desc = "Diagnostics (Trouble)",
   })

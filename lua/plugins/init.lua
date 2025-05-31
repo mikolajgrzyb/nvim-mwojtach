@@ -47,7 +47,13 @@ Lazy.load({
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
       },
-    }
+    },
+    {
+      "m4xshen/hardtime.nvim",
+      lazy = false,
+      dependencies = { "MunifTanjim/nui.nvim" },
+      opts = {},
+    },
   },
   -- AUTOCOMPLETE
   "hrsh7th/cmp-nvim-lsp",
@@ -55,6 +61,15 @@ Lazy.load({
   "hrsh7th/cmp-path",
   "hrsh7th/cmp-cmdline",
   "hrsh7th/nvim-cmp",
+  'hrsh7th/cmp-vsnip',
+  'hrsh7th/vim-vsnip',
+  {
+    "chrisgrieser/nvim-scissors",
+    dependencies = "nvim-telescope/telescope.nvim", -- if using telescope
+    opts = {
+      snippetDir = "~/.config/nvim/snippets",
+    }
+  },
   -- OIL
   "stevearc/oil.nvim",
   -- YAZI
@@ -132,6 +147,8 @@ require "plugins.tree-sitter-text-objects"
 require "plugins.cmp"
 require "plugins.conform"
 require "plugins.marks"
+require "plugins.hardtime"
+require "plugins.vsnip"
 
 -- quick setup
 require "gitsigns".setup()

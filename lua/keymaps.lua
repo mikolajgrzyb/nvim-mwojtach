@@ -199,7 +199,10 @@ vim.keymap.set(
   function() require("scissors").editSnippet() end,
   { desc = "Snippet: Edit" }
 )
-
+-- INLAY HINTS TOGGLE
+vim.keymap.set("n", "<leader>ih", function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+end, { desc = "Toggle Inlay Hints" })
 -- when used in visual mode, prefills the selection as snippet body
 vim.keymap.set(
   { "n", "x" },

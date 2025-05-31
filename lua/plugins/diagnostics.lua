@@ -25,10 +25,8 @@ function M.print_diagnostics()
 end
 
 vim.diagnostic.config({
-  virtual_text = true,        -- optional: disable inline virtual_text
-  virtual_lines = {
-    only_current_line = true, -- show virtual lines only on the current line (optional)
-  },
+  virtual_text = true, -- optional: disable inline virtual_text
 })
+vim.lsp.inlay_hint.enable(true)
 
 return M

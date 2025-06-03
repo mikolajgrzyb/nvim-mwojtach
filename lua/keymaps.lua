@@ -130,6 +130,13 @@ kset("n", "<leader>_2", "<cmd>Yazi toggle<CR>", opts({ desc = "Yazi - resume" })
 -- WINDOWS
 kset("n", "<leader>z", '<cmd>WindowsMaximize<CR>', { desc = "Zoom Window" })
 
+-- PRETTIER
+kset("n", "cf", function()
+  local pos = vim.api.nvim_win_get_cursor(0) -- save cursor position
+  vim.cmd("silent %!prettier --stdin-filepath %")
+  vim.api.nvim_win_set_cursor(0, pos)        -- restore cursor position
+end, { desc = "Format with Prettier" })
+
 -- TEST
 kset("n", "<leader>tf", "<cmd>TestFile<CR>", opts({ desc = "Run current file test" }))
 kset("n", "<leader>tn", "<cmd>TestNearest<CR>", opts({ desc = "Run nearest test" }))

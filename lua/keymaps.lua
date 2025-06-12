@@ -167,7 +167,12 @@ kset('n',
 )
 kset('n',
   "<leader>xX",
-  "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+  function()
+    require("trouble").open("diagnostics", { focus = false, filter = { buf = 0 } })
+    vim.defer_fn(function()
+      vim.cmd("wincmd j")
+    end, 50)
+  end,
   opts({
     desc = "Buffer Diagnostics (Trouble)",
   })
@@ -186,6 +191,11 @@ kset('n',
     desc = "LSP Definitions / references / ... (Trouble)",
   })
 )
+
+-- INLAY HINTS TOGGLE
+vim.keymap.set("n", "<leader>xh", function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+end, { desc = "Toggle Inlay Hints" })
 kset('n',
   "<leader>xL",
   "<cmd>Trouble loclist toggle<cr>",
@@ -206,10 +216,6 @@ vim.keymap.set(
   function() require("scissors").editSnippet() end,
   { desc = "Snippet: Edit" }
 )
--- INLAY HINTS TOGGLE
-vim.keymap.set("n", "<leader>ih", function()
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-end, { desc = "Toggle Inlay Hints" })
 -- when used in visual mode, prefills the selection as snippet body
 vim.keymap.set(
   { "n", "x" },
@@ -252,6 +258,7 @@ vim.keymap.set("n", "<leader>oc", function()
 end, { desc = "Open in VS Code (project context)" })
 
 wk.add({
+  { "<leader>x",  group = "Trouble" },
   { "<leader>_",  group = "Yazi" },
   { "<leader>s",  group = "Search / Show" },
   { "<leader>g",  group = "Git" },

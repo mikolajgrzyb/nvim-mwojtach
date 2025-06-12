@@ -42,6 +42,12 @@ Lazy.load({
   "nvim-treesitter/nvim-treesitter",
   "nvim-treesitter/nvim-treesitter-context",
   {
+    "nvzone/typr",
+    dependencies = "nvzone/volt",
+    opts = {},
+    cmd = { "Typr", "TyprStats" },
+  },
+  {
     "nvim-treesitter/nvim-treesitter-textobjects",
     dependencies = {
       {
@@ -52,7 +58,6 @@ Lazy.load({
       "m4xshen/hardtime.nvim",
       lazy = false,
       dependencies = { "MunifTanjim/nui.nvim" },
-      opts = {},
     },
   },
   -- AUTOCOMPLETE
@@ -94,8 +99,8 @@ Lazy.load({
   {
     'EvWilson/spelunk.nvim',
     dependencies = {
-      'nvim-lua/plenary.nvim',        -- For window drawing utilities
-      'nvim-telescope/telescope.nvim', -- Optional: for fuzzy search capabilities
+      'nvim-lua/plenary.nvim',           -- For window drawing utilities
+      'nvim-telescope/telescope.nvim',   -- Optional: for fuzzy search capabilities
       'nvim-treesitter/nvim-treesitter', -- Optional: for showing grammar context
     },
     config = function()
@@ -118,6 +123,13 @@ Lazy.load({
       branch = true,
     }
   },
+  {
+    "j-hui/fidget.nvim",
+    tag = "v1.0.0", -- Make sure to update this to something recent!
+    opts = {
+      -- options
+    },
+  },
   -- THEME
   {
     "rmehri01/onenord.nvim",
@@ -129,6 +141,7 @@ Lazy.load({
     lazy = false,
     priority = 1000,
   },
+  { "dotsilas/darcubox-nvim", lazy = false, priority = 10000 },
   {
     "anuvyklack/windows.nvim",
     dependencies = {
@@ -162,6 +175,7 @@ require "plugins.cmp"
 require "plugins.conform"
 require "plugins.marks"
 require "plugins.hardtime"
+require "plugins.fidget"
 require "plugins.vsnip"
 
 -- quick setup

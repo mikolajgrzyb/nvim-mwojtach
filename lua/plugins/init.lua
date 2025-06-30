@@ -115,6 +115,18 @@ Lazy.load({
   "RRethy/vim-illuminate",
   "ggandor/leap.nvim",
   {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+    opts = {},
+  },
+  {
+    'smoka7/hop.nvim',
+    version = "*",
+    opts = {
+      keys = 'etovxqpdygfblzhckisuran'
+    }
+  },
+  {
     "folke/persistence.nvim",
     event = "BufReadPre",
     opts = {
@@ -177,6 +189,9 @@ require "plugins.marks"
 require "plugins.hardtime"
 require "plugins.fidget"
 require "plugins.vsnip"
+require "plugins.hop"
+
+require "plugins.render-markdown"
 
 -- quick setup
 require "gitsigns".setup()

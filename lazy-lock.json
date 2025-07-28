@@ -25,6 +25,7 @@
   "nui.nvim": { "branch": "main", "commit": "7cd18e73cfbd70e1546931b7268b3eebaeff9391" },
   "nvim-autopairs": { "branch": "master", "commit": "6522027785b305269fa17088395dfc0f456cedd2" },
   "nvim-cmp": { "branch": "main", "commit": "1e1900b0769324a9675ef85b38f99cca29e203b3" },
+  "nvim-eslint": { "branch": "main", "commit": "bcab40ed268b869cce8fde8e91d1c51ec26e5019" },
   "nvim-lspconfig": { "branch": "master", "commit": "ff6471d4f837354d8257dfa326b031dd8858b16e" },
   "nvim-scissors": { "branch": "main", "commit": "8123690127a599b7d5669b074d572e6239222c45" },
   "nvim-treesitter": { "branch": "master", "commit": "9be6836ebeb88a536055bf1ce0961eef68da4bc6" },

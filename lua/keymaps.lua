@@ -58,10 +58,16 @@ kset("v", "<S-A-k>", ":<C-u>execute \"'<,'>move '<-\" . (v:count1 + 1)<CR>gv=gv"
 
 kset("n", "<leader>n", "<cmd>messages<CR>", opts({ desc = "Show messages" }))
 
-kset("n", "<leader>cf", function() vim.lsp.buf.format() end, opts({ desc = "Format file" }))
+-- kset("n", "<leader>cf", function() vim.lsp.buf.format() end, opts({ desc = "Format file" }))
 
 kset("n", "<S-Down>", function() Switchfiles.select() end, opts({ desc = "Select similar file" }))
 kset("n", "<S-Right", function() Switchfiles.switch() end, opts({ desc = "Switch to similar file" }))
+
+kset({ "n", "v" }, "gl", "$", opts({ desc = "Goto line end" }))
+kset({ "n", "v" }, "gh", "_", opts({ desc = "Goto line start" }))
+kset({ "n", "v" }, "gs", "0", opts({ desc = "Goto first non empty character" }))
+
+kset("n", "ge", "G", opts({ desc = "Go to last line" }))
 
 -- OIL
 kset("n", "-", "<CMD>Oil<CR>", opts({ desc = "Open parent directory" }))
@@ -109,8 +115,29 @@ kset("n", "<leader>co",
   end,
   opts({ desc = "Organize Imports" })
 )
+-- Diagnostics
 kset("n", "<leader>cd", vim.diagnostic.open_float, opts({ desc = "Show Line Diagnostics" }))
 kset("n", "<leader>cD", function() telescope.diagnostics({ bufnr = 0 }) end, opts({ desc = "Show Buffer Diagnostics" }))
+local vt_enabled = true
+kset("n", "<leader>cv", function()
+  vt_enabled = not vt_enabled
+  vim.diagnostic.config({ virtual_text = vt_enabled })
+  vim.notify("Virtual Text " .. (vt_enabled and "Enabled" or "Disabled"))
+end, opts({ desc = "Toggle Virtual Text Diagnostics" }))
+local virtual_lines = false
+kset("n", "<leader>cV", function()
+  virtual_lines = not virtual_lines
+  if virtual_lines then
+    vim.diagnostic.config({
+      virtual_lines = { only_current_line = true },
+    })
+  else
+    vim.diagnostic.config({
+      virtual_lines = nil,
+    })
+  end
+  vim.notify("Virtual Lines only_current_line: " .. tostring(virtual_lines))
+end, opts({ desc = "Toggle Virtual Text Diagnostics" }))
 
 -- GIT
 kset("n", "<leader>gg", "<cmd>LazyGit<CR>", opts({ desc = "LazyGit" }))
@@ -136,6 +163,13 @@ kset("n", "cf", function()
   vim.cmd("silent %!prettier --stdin-filepath %")
   vim.api.nvim_win_set_cursor(0, pos)        -- restore cursor position
 end, { desc = "Format with Prettier" })
+vim.keymap.set("n", "<leader>ef", function()
+  vim.cmd("!yarn run eslint --fix " .. vim.fn.expand("%"))
+end, { desc = "ESLint Fix Current File" })
+
+kset({ "n", "i", "x", "s" }, "<leader>bw", function()
+  vim.wo.wrap = not vim.wo.wrap
+end, { desc = "Toggle Word Wrap" })
 
 -- TEST
 kset("n", "<leader>tf", "<cmd>TestFile<CR>", opts({ desc = "Run current file test" }))
@@ -277,11 +311,11 @@ vim.keymap.set('', 's', function()
   hop.hint_char2()
 end, { remap = true })
 
-vim.keymap.set('', '<leader>sw', function()
+vim.keymap.set('', 'K', function()
   vim.cmd('HopWord')
 end, { desc = 'Find word' })
 
-vim.keymap.set('', '<leader>l', function()
+vim.keymap.set('', 'L', function()
   vim.cmd('HopLineStart')
 end, { desc = 'Go to line' })
 

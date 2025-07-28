@@ -34,6 +34,7 @@ Lazy.load({
   "neovim/nvim-lspconfig",
   -- FORMATTERS
   "stevearc/conform.nvim",
+  'esmuellert/nvim-eslint',
   -- TELESCOPE
   { "nvim-telescope/telescope.nvim",            lazy = true },
   { "nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true },
@@ -190,6 +191,7 @@ require "plugins.hardtime"
 require "plugins.fidget"
 require "plugins.vsnip"
 require "plugins.hop"
+require "plugins.eslint"
 
 require "plugins.render-markdown"
 

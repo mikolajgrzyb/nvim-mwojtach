@@ -19,3 +19,8 @@ vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
     end
   end,
 })
+
+vim.api.nvim_create_user_command("Bd", function()
+  vim.cmd("bp")   -- go to previous buffer
+  vim.cmd("bd #") -- delete the one we just left
+end, {})

@@ -73,7 +73,7 @@ kset("n", "ge", "G", opts({ desc = "Go to last line" }))
 kset("n", "-", "<CMD>Oil<CR>", opts({ desc = "Open parent directory" }))
 
 -- TELESCOPE
-kset("n", "<leader><leader>", "<cmd>Telescope find_files<CR>", opts({ desc = "Find files" }))
+kset("n", "<leader><leader>", "<cmd>Telescope find_files hidden=true<CR>", opts({ desc = "Find files" }))
 kset("n", "<leader>sg", "<cmd>Telescope live_grep<CR>", opts({ desc = "Live grep" }))
 kset("n", "<leader>fc", function()
   require("telescope.builtin").find_files({
@@ -95,6 +95,8 @@ kset("n", "<leader>sfp", function() vim.notify(vim.fn.expand("%:p")) end, opts({
 
 -- LSP
 kset("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts({ desc = "Definition" }))
+kset("n", "gv", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>",
+  opts({ desc = "Goto Definition in Vertical Split", nowait = true }))
 kset("n", "gr", "<cmd>Telescope lsp_references<CR>", opts({ desc = "References" }))
 kset("n", "gI", function() telescope.lsp_implementations({ reuse_win = true }) end,
   opts({ desc = "Implementation" }))
@@ -133,11 +135,11 @@ kset("n", "<leader>cV", function()
     })
   else
     vim.diagnostic.config({
-      virtual_lines = nil,
+      virtual_lines = false,
     })
   end
   vim.notify("Virtual Lines only_current_line: " .. tostring(virtual_lines))
-end, opts({ desc = "Toggle Virtual Text Diagnostics" }))
+end, opts({ desc = "Toggle Virtual Line Diagnostics" }))
 
 -- GIT
 kset("n", "<leader>gg", "<cmd>LazyGit<CR>", opts({ desc = "LazyGit" }))

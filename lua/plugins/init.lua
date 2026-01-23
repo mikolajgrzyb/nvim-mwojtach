@@ -61,6 +61,16 @@ Lazy.load({
       dependencies = { "MunifTanjim/nui.nvim" },
     },
   },
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    dependencies = {
+      { "nvim-lua/plenary.nvim", branch = "master" },
+    },
+    build = "make tiktoken",
+    opts = {
+      -- See Configuration section for options
+    },
+  },
   -- AUTOCOMPLETE
   "hrsh7th/cmp-nvim-lsp",
   "hrsh7th/cmp-buffer",
@@ -192,6 +202,7 @@ require "plugins.fidget"
 require "plugins.vsnip"
 require "plugins.hop"
 require "plugins.eslint"
+require "plugins.copilot-chat"
 
 require "plugins.render-markdown"
 

@@ -35,7 +35,15 @@ kset("n", "<S-Right>", ":vertical resize +15<CR>", opts({ desc = "Increase windo
 
 kset("n", "<Tab>", ":bnext<CR>", opts({ desc = "Next buffer" }))
 kset("n", "<S-Tab>", ":bprevious<CR>", opts({ desc = "Previous buffer" }))
-kset("n", "<leader>bd", ":bdelete<CR>", opts({ desc = "Delete buffer" }))
+-- kset("n", "<leader>bd", ":bdelete<CR>", opts({ desc = "Delete buffer" }))
+kset("n", "<leader>bd", function()
+  local buf = vim.api.nvim_get_current_buf()
+  vim.cmd("bprevious")
+  if vim.api.nvim_get_current_buf() == buf then
+    vim.cmd("enew")
+  end
+  vim.cmd("bd " .. buf)
+end, { desc = "Delete buffer without closing window" })
 kset("n", "<leader>bo", ":%bd|e#<CR>", opts({ desc = "Delete other buffers" }))
 
 kset("n", "<leader>wv", "<C-w>v", opts({ desc = "Split window vertically" }))
@@ -95,7 +103,7 @@ kset("n", "<leader>sfp", function() vim.notify(vim.fn.expand("%:p")) end, opts({
 
 -- LSP
 kset("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts({ desc = "Definition" }))
-kset("n", "gv", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>",
+kset("n", "gV", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>",
   opts({ desc = "Goto Definition in Vertical Split", nowait = true }))
 kset("n", "gr", "<cmd>Telescope lsp_references<CR>", opts({ desc = "References" }))
 kset("n", "gI", function() telescope.lsp_implementations({ reuse_win = true }) end,
@@ -117,6 +125,7 @@ kset("n", "<leader>co",
   end,
   opts({ desc = "Organize Imports" })
 )
+kset("n", "<leader>cc", ":TSContextToggle<CR>", { desc = "Toggle Treesitter Context" })
 -- Diagnostics
 kset("n", "<leader>cd", vim.diagnostic.open_float, opts({ desc = "Show Line Diagnostics" }))
 kset("n", "<leader>cD", function() telescope.diagnostics({ bufnr = 0 }) end, opts({ desc = "Show Buffer Diagnostics" }))
@@ -144,6 +153,7 @@ end, opts({ desc = "Toggle Virtual Line Diagnostics" }))
 -- GIT
 kset("n", "<leader>gg", "<cmd>LazyGit<CR>", opts({ desc = "LazyGit" }))
 kset("n", "<leader>gn", function() neogit.open() end, opts({ desc = "Neogit" }))
+kset("n", "<leader>gl", "<cmd>Telescope git_bcommits<CR>", { desc = "Git commits for current file" })
 kset("n", "<leader>ghs", gitsigns.stage_hunk, opts({ desc = "Stage hunk" }))
 kset("n", "<leader>ghr", gitsigns.reset_hunk, opts({ desc = "Reset hunk" }))
 kset("n", "<leader>ghp", gitsigns.preview_hunk, opts({ desc = "Preview hunk" }))
@@ -176,6 +186,12 @@ end, { desc = "Toggle Word Wrap" })
 -- TEST
 kset("n", "<leader>tf", "<cmd>TestFile<CR>", opts({ desc = "Run current file test" }))
 kset("n", "<leader>tn", "<cmd>TestNearest<CR>", opts({ desc = "Run nearest test" }))
+-- Macro
+-- Start/stop macro recording with Q
+kset("n", "Q", "q", { noremap = true })
+
+-- Disable lowercase q (optional)
+kset("n", "q", "<nop>")
 
 -- Persistance
 kset("n", "<leader>qs", function() require("persistence").load() end)
@@ -188,6 +204,40 @@ kset("n", "<leader>ql", function() require("persistence").load({ last = true }) 
 
 -- stop Persistence => session won't be saved on exit
 kset("n", "<leader>qd", function() require("persistence").stop() end)
+-- COPILOT
+--
+function getRelFilePath()
+  local filepath = vim.api.nvim_buf_get_name(0)
+  if filepath == "" then
+    return
+  end
+  -- Try git root first
+  local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+  if vim.v.shell_error == 0 and git_root then
+    filepath = filepath:sub(#git_root + 2)
+  else
+    filepath = vim.fn.fnamemodify(filepath, ":.")
+  end
+  return filepath
+end
+
+kset("n", "<leader>ac", function()
+  local chat = require("CopilotChat")
+  local filepath = getRelFilePath()
+  chat.open({
+    model = "claude-sonnet-4",
+  })
+  chat.chat:append(table.concat({
+    "As a expert in programming in typescipt carefully prepare answer for question below.",
+    "#file:" .. filepath,
+  }, "\n"))
+end, { desc = "Open CopilotChat" })
+
+kset("n", "<leader>ap", function()
+  local filepath = getRelFilePath()
+  vim.fn.setreg("+", filepath)
+  vim.notify("Copied: " .. filepath)
+end, { desc = "Copy project-relative path to clipboard" })
 -- Trouble
 kset('n',
   "<leader>xx",

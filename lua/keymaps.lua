@@ -54,7 +54,11 @@ kset("n", "<C-k>", ":wincmd k<CR>", opts({ desc = "Go to split up" }))
 kset("n", "<C-j>", ":wincmd j<CR>", opts({ desc = "Go to split down" }))
 kset("n", "<C-h>", ":wincmd h<CR>", opts({ desc = "Go to split left" }))
 kset("n", "<C-l>", ":wincmd l<CR>", opts({ desc = "Go to split right" }))
+-- Jump down 10 lines
+kset("n", "<C-x>", "10j", { noremap = true, silent = true })
 
+-- Jump up 10 lines
+kset("n", "<C-c>", "10k", { noremap = true, silent = true })
 kset("v", "p", '"_dP', opts({ desc = "Keep last yanked when pasting" }))
 
 kset("n", "<S-A-j>", "<cmd>execute 'move .+' . v:count1<CR>==", opts({ desc = "Move Down" }))
@@ -151,7 +155,8 @@ kset("n", "<leader>cV", function()
 end, opts({ desc = "Toggle Virtual Line Diagnostics" }))
 
 -- GIT
-kset("n", "<leader>gg", "<cmd>LazyGit<CR>", opts({ desc = "LazyGit" }))
+-- kset("n", "<leader>gg", "<cmd>LazyGit<CR>", opts({ desc = "LazyGit" }))
+kset("n", "<leader>gg", "<cmd>Neogit<CR>", opts({ desc = "Neogit" }))
 kset("n", "<leader>gn", function() neogit.open() end, opts({ desc = "Neogit" }))
 kset("n", "<leader>gl", "<cmd>Telescope git_bcommits<CR>", { desc = "Git commits for current file" })
 kset("n", "<leader>ghs", gitsigns.stage_hunk, opts({ desc = "Stage hunk" }))

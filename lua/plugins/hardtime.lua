@@ -2,6 +2,8 @@ require("hardtime").setup({
   restricted_keys = {
     ["j"] = {},
     ["k"] = {},
+    ["h"] = {},
+    ["l"] = {},
   },
   disabled_keys = {
     ["<Right>"] = { "n", "x" },

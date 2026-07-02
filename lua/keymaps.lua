@@ -159,6 +159,15 @@ end, opts({ desc = "Toggle Virtual Line Diagnostics" }))
 kset("n", "<leader>gg", "<cmd>Neogit<CR>", opts({ desc = "Neogit" }))
 kset("n", "<leader>gn", function() neogit.open() end, opts({ desc = "Neogit" }))
 kset("n", "<leader>gl", "<cmd>Telescope git_bcommits<CR>", { desc = "Git commits for current file" })
+kset("n", "<leader>go", function()
+  local file = vim.fn.expand("%")
+  local root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+  local rel = vim.fn.fnamemodify(file, ":." .. root)
+
+  vim.cmd("Neogit log -- " .. rel)
+  -- vim.notify("Neogit log -- " .. vim.fn.expand("%"))
+  -- vim.cmd("Neogit log -- " .. vim.fn.expand("%"))
+end)
 kset("n", "<leader>ghs", gitsigns.stage_hunk, opts({ desc = "Stage hunk" }))
 kset("n", "<leader>ghr", gitsigns.reset_hunk, opts({ desc = "Reset hunk" }))
 kset("n", "<leader>ghp", gitsigns.preview_hunk, opts({ desc = "Preview hunk" }))
@@ -226,23 +235,42 @@ function getRelFilePath()
   return filepath
 end
 
+kset("n", "<leader>am", function()
+  vim.cmd("CopilotChatModels")
+end, { desc = "Change CopilotChat Model" })
+kset("n", "<leader>ar", "<cmd>CopilotChatReset<CR>", {
+  desc = "Select Model CopilotChat",
+})
+
 kset("n", "<leader>ac", function()
   local chat = require("CopilotChat")
   local filepath = getRelFilePath()
   chat.open({
-    model = "claude-sonnet-4",
+    model = chat.config.model
   })
   chat.chat:append(table.concat({
-    "As a expert in programming in typescipt carefully prepare answer for question below.",
-    "#file:" .. filepath,
+    "> #file:" .. filepath,
   }, "\n"))
 end, { desc = "Open CopilotChat" })
+kset("n", "<leader>ar", "<cmd>CopilotChatReset<CR>", {
+  desc = "Reset CopilotChat",
+})
 
 kset("n", "<leader>ap", function()
   local filepath = getRelFilePath()
-  vim.fn.setreg("+", filepath)
+  vim.fn.setreg("+", "#file:" .. filepath)
   vim.notify("Copied: " .. filepath)
 end, { desc = "Copy project-relative path to clipboard" })
+
+kset("n", "<leader>ag", function()
+  local filepath = getRelFilePath()
+  local dir = vim.fn.fnamemodify(filepath, ":h")
+  local glob = ">#glob:" .. dir .. "/*"
+
+  vim.fn.setreg("+", glob)
+  vim.notify("Copied: " .. glob)
+end, { desc = "Copy project-relative path glob to clipboard" })
+
 -- Trouble
 kset('n',
   "<leader>xx",

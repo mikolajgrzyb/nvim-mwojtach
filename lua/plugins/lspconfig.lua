@@ -112,6 +112,7 @@ lspconfig.angularls.setup {
   end,
   on_attach = function(client, bufnr)
     client.server_capabilities.documentFormattingProvider = false
+    -- client.server_capabilities.referencesProvider = false
   end,
   -- on_new_config = function(new_config, new_root_dir)
   --   new_config.cmd = {

@@ -1,6 +1,5 @@
 local utils_diagnostics = require "plugins.diagnostics"
 
-local telescope = require "telescope.builtin"
 local wk = require("which-key")
 local gitsigns = require "gitsigns"
 local neogit = require "neogit"
@@ -83,35 +82,36 @@ kset("n", "ge", "G", opts({ desc = "Go to last line" }))
 
 -- OIL
 kset("n", "-", "<CMD>Oil<CR>", opts({ desc = "Open parent directory" }))
-
--- TELESCOPE
-kset("n", "<leader><leader>", "<cmd>Telescope find_files hidden=true<CR>", opts({ desc = "Find files" }))
-kset("n", "<leader>sg", "<cmd>Telescope live_grep<CR>", opts({ desc = "Live grep" }))
+-- Files
+kset("n", "<leader><leader>", "<cmd>FzfLua files<CR>", opts({ desc = "Find files" }))
+kset("n", "<leader>sg", "<cmd>FzfLua live_grep<CR>", opts({ desc = "Grep files" }))
+kset("n", "<leader>,", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<CR>", opts({ desc = "Buffers" }))
 kset("n", "<leader>fc", function()
-  require("telescope.builtin").find_files({
+  require("fzf-lua").files({
     cwd = "~/.config/nvim",
-    prompt_title = "Neovim Config",
+    prompt = "Neovim Config> ",
   })
 end, { desc = "Find in Neovim Config" })
-kset("n", "<leader>,", "<cmd>Telescope buffers<CR>", opts({ desc = "Buffers" }))
-kset("n", "<leader>gf", "<cmd>Telescope git_files<CR>", opts({ desc = "Find Files (git-files)" }))
-kset("n", "<leader>gc", "<cmd>Telescope git_commits<CR>", opts({ desc = "Git commits" }))
-kset("n", "<leader>sk", "<cmd>Telescope keymaps<CR>", opts({ desc = "Keymaps" }))
-kset("n", "<leader>sR", "<cmd>Telescope registers<CR>", opts({ desc = "Registers" }))
-kset("n", "<leader>sm", "<cmd>Telescope marks<CR>", opts({ desc = "Marks" }))
-kset("n", "<leader>ss", function() telescope.lsp_document_symbols() end,
-  opts({ desc = "Goto Symbol" }))
-kset("n", "<leader>sr", "<cmd>Telescope resume<CR>", opts({ desc = "Resume previous search" }))
-kset("n", "<leader>sj", "<cmd>Telescope jumplist<CR>", opts({ desc = "Jumplist" }))
+kset("n", "<leader>gf", "<cmd>FzfLua git_files<CR>", opts({ desc = "Find Files (git-files)" }))
+kset("n", "<leader>gc", "<cmd>FzfLua git_commits<CR>", opts({ desc = "Git commits" }))
+kset("n", "<leader>sk", "<cmd>FzfLua keymaps<CR>", opts({ desc = "Keymaps" }))
+kset("n", "<leader>sR", "<cmd>FzfLua registers<CR>", opts({ desc = "Registers" }))
+kset("n", "<leader>sm", "<cmd>FzfLua marks<CR>", opts({ desc = "Marks" }))
+kset("n", "<leader>ss", "<cmd>FzfLua lsp_document_symbols<CR>", opts({ desc = "Document symbols" }))
+kset("n", "<leader>sS", "<cmd>FzfLua lsp_workspace_symbols<CR>", opts({ desc = "Workspace symbols" }))
+kset("n", "<leader>sd", "<cmd>FzfLua lsp_document_diagnostics<CR>", opts({ desc = "Document diagnostics" }))
+kset("n", "<leader>sD", "<cmd>FzfLua lsp_workspace_diagnostics<CR>", opts({ desc = "Workspace diagnostics" }))
+kset("n", "<leader>sj", "<cmd>FzfLua jumps<CR>", opts({ desc = "Jumps" }))
+kset("n", "<leader>sr", function() FzfLua.resume() end, opts({ desc = "Resume search" }))
 kset("n", "<leader>sfp", function() vim.notify(vim.fn.expand("%:p")) end, opts({ desc = "Show full file path" }))
 
 -- LSP
-kset("n", "gd", "<cmd>Telescope lsp_definitions<CR>", opts({ desc = "Definition" }))
+kset("n", "gd", "<cmd>FzfLua lsp_definitions<CR>", opts({ desc = "Definition" }))
 kset("n", "gV", "<cmd>vsplit | lua vim.lsp.buf.definition()<CR>",
   opts({ desc = "Goto Definition in Vertical Split", nowait = true }))
-kset("n", "gr", "<cmd>Telescope lsp_references<CR>", opts({ desc = "References" }))
-kset("n", "gI", function() telescope.lsp_implementations({ reuse_win = true }) end,
-  opts({ desc = "Implementation" }))
+kset("n", "gr", "<cmd>FzfLua lsp_references<CR>", opts({ desc = "References" }))
+
+kset("n", "gI", "<cmd>FzfLua lsp_implementations<CR>", opts({ desc = "Implementations" }))
 kset("n", "gD", vim.lsp.buf.declaration, opts({ desc = "Declaration" }))
 kset("n", "K", function() return vim.lsp.buf.hover() end, opts({ desc = "Hover" }))
 kset("n", "gK", function() return vim.lsp.buf.signature_help() end, opts({ desc = "Signature help" }))
@@ -132,7 +132,7 @@ kset("n", "<leader>co",
 kset("n", "<leader>cc", ":TSContextToggle<CR>", { desc = "Toggle Treesitter Context" })
 -- Diagnostics
 kset("n", "<leader>cd", vim.diagnostic.open_float, opts({ desc = "Show Line Diagnostics" }))
-kset("n", "<leader>cD", function() telescope.diagnostics({ bufnr = 0 }) end, opts({ desc = "Show Buffer Diagnostics" }))
+kset("n", "<leader>cD", "<cmd>FzfLua diagnostics_document<CR>", opts({ desc = "Show Buffer Diagnostics" }))
 local vt_enabled = true
 kset("n", "<leader>cv", function()
   vt_enabled = not vt_enabled
@@ -158,7 +158,6 @@ end, opts({ desc = "Toggle Virtual Line Diagnostics" }))
 -- kset("n", "<leader>gg", "<cmd>LazyGit<CR>", opts({ desc = "LazyGit" }))
 kset("n", "<leader>gg", "<cmd>Neogit<CR>", opts({ desc = "Neogit" }))
 kset("n", "<leader>gn", function() neogit.open() end, opts({ desc = "Neogit" }))
-kset("n", "<leader>gl", "<cmd>Telescope git_bcommits<CR>", { desc = "Git commits for current file" })
 kset("n", "<leader>go", function()
   local file = vim.fn.expand("%")
   local root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]

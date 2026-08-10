@@ -35,10 +35,6 @@ Lazy.load({
   -- FORMATTERS
   "stevearc/conform.nvim",
   'esmuellert/nvim-eslint',
-  -- TELESCOPE
-  { "nvim-telescope/telescope.nvim",            lazy = true },
-  { "nvim-telescope/telescope-fzf-native.nvim", build = "make", lazy = true },
-  "nvim-telescope/telescope-ui-select.nvim",
   -- TREESITTER
   "nvim-treesitter/nvim-treesitter",
   "nvim-treesitter/nvim-treesitter-context",
@@ -101,10 +97,14 @@ Lazy.load({
   'hrsh7th/vim-vsnip',
   {
     "chrisgrieser/nvim-scissors",
-    dependencies = "nvim-telescope/telescope.nvim", -- if using telescope
     opts = {
       snippetDir = "~/.config/nvim/snippets",
     }
+  },
+  {
+    "ibhagwan/fzf-lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {}
   },
   -- OIL
   "stevearc/oil.nvim",
@@ -226,9 +226,9 @@ Lazy.load({
 require("windows").setup()
 require "plugins.lspconfig"
 require "plugins.mason"
-require "plugins.telescope"
 require "plugins.which-key"
 require "plugins.treesitter"
+require "plugins.fzf-lua"
 require "plugins.tree-sitter-text-objects"
 require "plugins.cmp"
 require "plugins.conform"

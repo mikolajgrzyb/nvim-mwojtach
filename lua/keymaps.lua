@@ -85,6 +85,8 @@ kset("n", "-", "<CMD>Oil<CR>", opts({ desc = "Open parent directory" }))
 -- Files
 kset("n", "<leader><leader>", "<cmd>FzfLua files<CR>", opts({ desc = "Find files" }))
 kset("n", "<leader>sg", "<cmd>FzfLua live_grep<CR>", opts({ desc = "Grep files" }))
+
+kset("n", "<leader>fh", "<cmd>FzfLua old_files<CR>", opts({ desc = "Old files" }))
 kset("n", "<leader>,", "<cmd>FzfLua buffers sort_mru=true sort_lastused=true<CR>", opts({ desc = "Buffers" }))
 kset("n", "<leader>fc", function()
   require("fzf-lua").files({
@@ -94,6 +96,7 @@ kset("n", "<leader>fc", function()
 end, { desc = "Find in Neovim Config" })
 kset("n", "<leader>gf", "<cmd>FzfLua git_files<CR>", opts({ desc = "Find Files (git-files)" }))
 kset("n", "<leader>gc", "<cmd>FzfLua git_commits<CR>", opts({ desc = "Git commits" }))
+kset("n", "<leader>gl", "<cmd>FzfLua git_bcommits<CR>", opts({ desc = "Git commits" }))
 kset("n", "<leader>sk", "<cmd>FzfLua keymaps<CR>", opts({ desc = "Keymaps" }))
 kset("n", "<leader>sR", "<cmd>FzfLua registers<CR>", opts({ desc = "Registers" }))
 kset("n", "<leader>sm", "<cmd>FzfLua marks<CR>", opts({ desc = "Marks" }))
@@ -172,6 +175,8 @@ kset("n", "<leader>ghr", gitsigns.reset_hunk, opts({ desc = "Reset hunk" }))
 kset("n", "<leader>ghp", gitsigns.preview_hunk, opts({ desc = "Preview hunk" }))
 kset("n", "<leader>ghi", gitsigns.preview_hunk_inline, opts({ desc = "Preview hunk inline" }))
 kset("n", "<leader>ghb", gitsigns.blame_line, opts({ desc = "Blame line" }))
+
+kset("n", "<leader>ghd", "FzfLua git_blame", opts({ desc = "Blame line" }))
 kset("n", "<leader>ght", gitsigns.toggle_current_line_blame, opts({ desc = "Toggle line blame" }))
 
 -- YAZI

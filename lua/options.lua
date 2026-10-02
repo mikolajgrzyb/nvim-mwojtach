@@ -6,6 +6,7 @@ vim.wo.number = true
 
 local opt = vim.opt
 
+opt.background = "dark"
 opt.clipboard = vim.env.SSH_TTY and "" or "unnamedplus" -- Sync with system clipboard
 opt.completeopt = "menu,menuone,noselect"
 opt.conceallevel = 0

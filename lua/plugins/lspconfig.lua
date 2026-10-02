@@ -1,16 +1,17 @@
-local lspconfig = require 'lspconfig'
 local lsp_capabilities = require('cmp_nvim_lsp').default_capabilities()
-local util = require 'lspconfig.util'
 
-local client_capabilities = vim.lsp.protocol.make_client_capabilities()
-client_capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-lspconfig.lua_ls.setup {
+-- Apply completion capabilities to every server. Server defaults are supplied
+-- by nvim-lspconfig's lsp/ directory and extended below with local settings.
+vim.lsp.config('*', {
   capabilities = lsp_capabilities,
+})
+
+vim.lsp.config('lua_ls', {
   on_init = function(client)
     if client.workspace_folders then
       local path = client.workspace_folders[1].name
-      if path ~= vim.fn.stdpath('config') and (vim.loop.fs_stat(path .. '/.luarc.json') or vim.loop.fs_stat(path .. '/.luarc.jsonc')) then
+      if path ~= vim.fn.stdpath('config')
+          and (vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc')) then
         return
       end
     end
@@ -35,12 +36,10 @@ lspconfig.lua_ls.setup {
       }
     })
   end,
-  settings = {
-    Lua = {}
-  }
-}
+  settings = { Lua = {} },
+})
 
-lspconfig.vtsls.setup {
+vim.lsp.config('vtsls', {
   settings = {
     typescript = {
       preferences = {
@@ -58,96 +57,20 @@ lspconfig.vtsls.setup {
       },
     },
   },
-}
+})
 
-lspconfig.intelephense.setup {}
-
-lspconfig.emmet_language_server.setup {}
-
-lspconfig.cssls.setup {
-  capabilities = client_capabilities,
-}
-
--- lspconfig.html.setup {
---   capabilities = client_capabilities,
--- }
-
-lspconfig.angularls.setup {
-  capabilities = lsp_capabilities,
+vim.lsp.config('angularls', {
   filetypes = { "typescript", "html", "angular", "htmlangular" },
-  root_dir = function(fname)
-    local root = require("lspconfig.util").root_pattern(
-      "angular.json",
-      "workspace.json",
-      "nx.json",
-      "package.json",
-      "tsconfig.base.json"
-    )(fname)
-
-    if root then
-      -- 🚀 Include `libs/` for Go to Definition (`gd`)
-      vim.lsp.buf.execute_command({
-        command = "_typescript.applyWorkspaceEdit",
-        arguments = {
-          {
-            changes = {
-              [root .. "/libs"] = {},
-            },
-          },
-        },
-      })
-    end
-
-    return root
-  end,
-  on_new_config = function(new_config, new_root_dir)
-    new_config.cmd = {
-      "ngserver",
-      "--stdio",
-      "--tsProbeLocations",
-      new_root_dir,
-      "--ngProbeLocations",
-      new_root_dir,
-    }
-  end,
-  on_attach = function(client, bufnr)
+  on_attach = function(client)
     client.server_capabilities.documentFormattingProvider = false
-    -- client.server_capabilities.referencesProvider = false
   end,
-  -- on_new_config = function(new_config, new_root_dir)
-  --   new_config.cmd = {
-  --     "ngserver",
-  --     "--stdio",
-  --     "--tsProbeLocations",
-  --     new_root_dir,
-  --     "--ngProbeLocations",
-  --     new_root_dir,
-  --   }
-  -- end,
-}
+})
 
-local function filterDuplicates(array)
-  local uniqueArray = {}
-  for _, tableA in ipairs(array) do
-    local isDuplicate = false
-    for _, tableB in ipairs(uniqueArray) do
-      if vim.deep_equal(tableA, tableB) then
-        isDuplicate = true
-        break
-      end
-    end
-    if not isDuplicate then
-      table.insert(uniqueArray, tableA)
-    end
-  end
-  return uniqueArray
-end
-
-local function on_list(options)
-  vim.notify('ON LIST')
-  options.items = filterDuplicates(options.items)
-  vim.fn.setqflist({}, ' ', options)
-  vim.cmd('botright copen')
-end
-
-vim.lsp.buf.references(nil, { on_list = on_list })
+vim.lsp.enable({
+  'lua_ls',
+  'vtsls',
+  'intelephense',
+  'emmet_language_server',
+  'cssls',
+  'angularls',
+})

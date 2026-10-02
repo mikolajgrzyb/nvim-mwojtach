@@ -1,7 +1,7 @@
 local Lazy = {}
 
 function Lazy.install(path)
-  if not vim.loop.fs_stat(path) then
+  if not vim.uv.fs_stat(path) then
     print("Installing lazy.nvim....")
     vim.fn.system({
       "git",
@@ -29,14 +29,18 @@ Lazy.load({
   "nvim-lua/plenary.nvim",
   "nvim-tree/nvim-web-devicons",
   -- LSP
-  "williamboman/mason-lspconfig.nvim",
-  "williamboman/mason.nvim",
+  "mason-org/mason-lspconfig.nvim",
+  "mason-org/mason.nvim",
   "neovim/nvim-lspconfig",
   -- FORMATTERS
   "stevearc/conform.nvim",
   'esmuellert/nvim-eslint',
   -- TREESITTER
-  "nvim-treesitter/nvim-treesitter",
+  {
+    "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    build = ":TSUpdate",
+  },
   "nvim-treesitter/nvim-treesitter-context",
   {
     "nvzone/typr",
@@ -46,16 +50,17 @@ Lazy.load({
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
-    dependencies = {
-      {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-      },
-    },
-    {
-      "m4xshen/hardtime.nvim",
-      lazy = false,
-      dependencies = { "MunifTanjim/nui.nvim" },
-    },
+    branch = "main",
+    lazy = false,
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    config = function()
+      require("plugins.tree-sitter-text-objects")
+    end,
+  },
+  {
+    "m4xshen/hardtime.nvim",
+    lazy = false,
+    dependencies = { "MunifTanjim/nui.nvim" },
   },
   {
     "CopilotC-Nvim/CopilotChat.nvim",
@@ -111,8 +116,17 @@ Lazy.load({
   -- YAZI
   "mikavilpas/yazi.nvim",
   -- GIT
-  -- {
-  "kdheepak/lazygit.nvim",
+  {
+    "kdheepak/lazygit.nvim",
+    lazy = true,
+    cmd = {
+      "LazyGit",
+      "LazyGitConfig",
+      "LazyGitCurrentFile",
+      "LazyGitFilter",
+      "LazyGitFilterCurrentFile",
+    },
+  },
   {
     "NeogitOrg/neogit",
     lazy = true,
@@ -126,20 +140,10 @@ Lazy.load({
       -- "folke/snacks.nvim",           -- optional
     },
     cmd = "Neogit",
-    keys = {
-    }
-  },
-  lazy = true,
-  cmd = {
-    "LazyGit",
-    "LazyGitConfig",
-    "LazyGitCurrentFile",
-    "LazyGitFilter",
-    "LazyGitFilterCurrentFile",
+    keys = {}
   },
   "lewis6991/gitsigns.nvim",
   "sindrets/diffview.nvim",
-  "NeogitOrg/neogit",
   -- UI
   "folke/which-key.nvim",
   -- BOOKMARS
@@ -160,7 +164,6 @@ Lazy.load({
   "windwp/nvim-autopairs",
   "folke/todo-comments.nvim",
   "RRethy/vim-illuminate",
-  "ggandor/leap.nvim",
   {
     'MeanderingProgrammer/render-markdown.nvim',
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
@@ -189,18 +192,6 @@ Lazy.load({
       -- options
     },
   },
-  -- THEME
-  {
-    "rmehri01/onenord.nvim",
-    lazy = false,
-    priority = 1000,
-  },
-  {
-    "skardyy/makurai-nvim",
-    lazy = false,
-    priority = 1000,
-  },
-  { "dotsilas/darcubox-nvim", lazy = false, priority = 10000 },
   {
     "anuvyklack/windows.nvim",
     dependencies = {
@@ -224,12 +215,11 @@ Lazy.load({
 })
 
 require("windows").setup()
-require "plugins.lspconfig"
 require "plugins.mason"
+require "plugins.lspconfig"
 require "plugins.which-key"
 require "plugins.treesitter"
 require "plugins.fzf-lua"
-require "plugins.tree-sitter-text-objects"
 require "plugins.cmp"
 require "plugins.conform"
 require "plugins.marks"
@@ -246,14 +236,11 @@ require "plugins.render-markdown"
 require "gitsigns".setup()
 require "nvim-autopairs".setup()
 require "oil".setup()
-require "leap".create_default_mappings()
 require "yazi".setup({
   floating_window_scaling_factor = 1
 })
 require "illuminate".configure()
 require "todo-comments".setup()
 require "neogit".setup()
-require "makurai".setup()
-
 -- local
 require "plugins.switchfiles"
